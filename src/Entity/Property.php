@@ -11,8 +11,8 @@ class Property
 {
 
     const HEAT = [
-        0 => 'electric',
-        1 => 'gaz'
+        0 => 'Electric',
+        1 => 'Gaz'
     ];
     /**
      * @ORM\Id()
@@ -205,6 +205,10 @@ class Property
         return $this;
     }
 
+    public function getHeatType() : string
+    {
+        return self::HEAT[$this->heat];
+    }
     public function getCity(): ?string
     {
         return $this->city;
