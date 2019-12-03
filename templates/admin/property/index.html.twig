@@ -3,35 +3,32 @@
 {% block title 'Admin' %}
 
 {% block body %}
-    <div class="container text-center">
-        <h1> Agence Symfony </h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam assumenda commodi dignissimos in laborum
-            maxime pariatur quas, qui sapiente? Aliquam animi doloribus pariatur repudiandae sunt tempora veritatis voluptatum!
-            Laboriosam.
-        </p>
-    </div>
+        <div class="container mt-4">
 
-    <div class="container">
-        <h2> All Properties </h2>
-        <div class = "row flex">
-            {%  for property in properties %}
-                <div class="col-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <h5>
-                                    <a href="{{ path('property.show', {id: property.id})}}" >{{ property.title }}</a>
-                                </h5>
-                                <p class="card-text">{{ property.city }} ({{ property.postalCode }})</p>
-                                <div class="text-primary" style="font-weight: bold;font-size: 2rem;">{{ property.formattedPrice }} $</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <h1>Property Manages</h1>
 
-            {% endfor %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for property in properties %}
+                <tr>
+                    <td>{{  property.title }}</td>
+                    <td>
+                        <a href="{{ path('admin.property.edit', {id: property.id})}}" class="btn btn-secondary">Update</a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div>
+
+
+
 
 {% endblock %}
