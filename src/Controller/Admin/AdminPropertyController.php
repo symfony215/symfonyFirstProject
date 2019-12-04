@@ -47,6 +47,8 @@ class AdminPropertyController extends AbstractController{
 
     /**
      * @Route("/admin/property/create", name="admin.property.new")
+     *
+     *
      */
     public function new(Request $request)
     {
@@ -57,6 +59,7 @@ class AdminPropertyController extends AbstractController{
         if($form->isSubmitted() && $form->isValid()){
             $this->em->persist($property);
             $this->em->flush();
+            $this->addFlash('success','create successfully');
             return $this->redirectToRoute('admin.property.index');
         }
         return $this->render('admin/property/new.html.twig', [
@@ -67,7 +70,7 @@ class AdminPropertyController extends AbstractController{
     }
 
     /**
-     * @Route("/admin/edit/{id}", name="admin.property.edit")
+     * @Route("/admin/property/edit/{id}", name="admin.property.edit")
      * @param Property $property
      * @param Request $request
      * @return Response
@@ -80,6 +83,7 @@ class AdminPropertyController extends AbstractController{
 
         if($form->isSubmitted() && $form->isValid()){
             $this->em->flush();
+            $this->addFlash('success','change successfully');
             return $this->redirectToRoute('admin.property.index');
         }
 
@@ -87,5 +91,22 @@ class AdminPropertyController extends AbstractController{
             'property' => $property,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/admin/property/delete/{id}", name="admin.property.delete", methods="DELETE")
+     * @param Property $property
+     * @param Request $request
+     * @return Response
+     */
+    public function delete(Property $property, Request $request)
+    {
+
+            $this->em->remove($property);
+            $this->em->flush();
+            $this->addFlash('success','delete successfully');
+        //return new Response("delete");
+        return $this->redirectToRoute('admin.property.index');
+
     }
 }
