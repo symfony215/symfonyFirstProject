@@ -17,20 +17,16 @@ class AdminPropertyController extends AbstractController{
      * @var PropertyRepository
      */
     private $repository;
-    /**
-     * @var ObjectManager
-     */
-    private $em;
+
 
     /**
      * AdminPropertyController constructor.
      * @param PropertyRepository $repository
      */
-    public function __construct(PropertyRepository $repository, ObjectManager $em)
+    public function __construct(PropertyRepository $repository )
 
     {
         $this->repository = $repository;
-        $this->em = $em;
     }
 
     /**
@@ -48,7 +44,8 @@ class AdminPropertyController extends AbstractController{
     /**
      * @Route("/admin/property/create", name="admin.property.new")
      *
-     *
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request)
     {
@@ -57,8 +54,8 @@ class AdminPropertyController extends AbstractController{
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->em->persist($property);
-            $this->em->flush();
+            $this->persist($property);
+            $this->flush();
             $this->addFlash('success','create successfully');
             return $this->redirectToRoute('admin.property.index');
         }
@@ -82,7 +79,7 @@ class AdminPropertyController extends AbstractController{
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->em->flush();
+            $this->flush();
             $this->addFlash('success','change successfully');
             return $this->redirectToRoute('admin.property.index');
         }
@@ -102,8 +99,8 @@ class AdminPropertyController extends AbstractController{
     public function delete(Property $property, Request $request)
     {
 
-            $this->em->remove($property);
-            $this->em->flush();
+            $this-remove($property);
+            $this-flush();
             $this->addFlash('success','delete successfully');
         //return new Response("delete");
         return $this->redirectToRoute('admin.property.index');
