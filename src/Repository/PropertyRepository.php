@@ -5,6 +5,9 @@ namespace App\Repository;
 use App\Entity\Property;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginatorInterface;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,13 +22,14 @@ class PropertyRepository extends ServiceEntityRepository
         parent::__construct($registry, Property::class);
     }
 
-    public function findAllVisible()
+    /**
+     * @return Query
+     */
+
+    public function findAllVisibleQuery(): Query
     {
-        return $this->createQueryBuilder('p')
-            ->Where('p.sold = false')
-            ->getQuery()
-            ->getResult()
-            ;
+        return $this->findVisibleQuery()
+            ->getQuery();
     }
 
     // /**
@@ -56,4 +60,12 @@ class PropertyRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @return QueryBuilder
+     */
+    private function findVisibleQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p');
+
+    }
 }
